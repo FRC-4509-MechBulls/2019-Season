@@ -9,37 +9,38 @@ package frc.robot;
 
 import frc.robot.commands.*;
 import frc.robot.controls.*;
+
 import edu.wpi.first.wpilibj.buttons.Trigger;
 
-/**
- * This class is the glue that binds the controls on the physical operator
- * interface to the commands and command groups that allow control of the robot.
+/*
+ * This class handles human input and maps it to commands.
+ * OI stands for Operator Input
+ * 
  */
 public class OI {
-
+	
 	public static final int XBOX_CONTROLLER_1_PORT = 0;
-
+	public static final int XBOX_CONTROLLER_2_PORT = 1;
+	
 	public ControllerBase controller;
-	CustomTrigger c1Trigger;
-	CustomTrigger c2Trigger;
-
+	DriveTrigger     driveTrigger;
+	
 	public OI() {
 		// List of possible controllers
+		//this.controller = new XboxControllerPair(OI.XBOX_CONTROLLER_1_PORT, OI.XBOX_CONTROLLER_2_PORT);
 		this.controller = new XboxController(OI.XBOX_CONTROLLER_1_PORT);
-
+		
 		// Init triggers
-		this.c1Trigger = new CustomTrigger();
-		this.c2Trigger = new CustomTrigger();
+		this.driveTrigger = new DriveTrigger();
 	}
-
+	
 	// Maps triggers to commands.
 	public void setTriggers() {
-		this.c1Trigger.whileActive(null);
-		this.c2Trigger.whenActive(null);
+		this.driveTrigger.whileActive(new DirectDriveCommand());
 	}
-
-	class CustomTrigger extends Trigger {
-		public boolean get() { return false; }
+	
+	class DriveTrigger extends Trigger {
+		public boolean get() { return Robot.oi.controller.getDrive() != 0 || Robot.oi.controller.getTurn() != 0; }
 	}
 
 }
