@@ -1,8 +1,8 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
+/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.												*/
+/* Open Source Software - may be modified and shared by FRC teams. The code	 */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
+/* the project.																															 */
 /*----------------------------------------------------------------------------*/
 
 package frc.robot;
@@ -10,10 +10,7 @@ package frc.robot;
 import frc.robot.subsystems.*;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -24,103 +21,85 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends TimedRobot {
 
-  public static final DrivingSubsystem drivingSubsystem = new DrivingSubsystem();
-  
-  public static OI oi;
+	public static final DrivingSubsystem drivingSubsystem = new DrivingSubsystem();
 
-  Command autonomousCommand;
-  SendableChooser<Command> chooser = new SendableChooser<>();
+	public static OI oi;
 
-  /**
-   * This function is run when the robot is first started up and should be
-   * used for any initialization code.
-   */
-  @Override
-  public void robotInit() {
-    RobotMap.initDrive();
-    
-    Robot.oi = new OI();
+	/**
+	 * This function is run when the robot is first started up and should be
+	 * used for any initialization code.
+	 */
+	@Override
+	public void robotInit() {
+		RobotMap.initDrive();
+		
+		Robot.oi = new OI();
 		Robot.oi.setTriggers();
+	}
 
-    chooser.setDefaultOption("Default Auto", null);
-    SmartDashboard.putData("Auto mode", chooser);
-  }
+	/**
+	 * This function is called every robot packet, no matter the mode. Use
+	 * this for items like diagnostics that you want ran during disabled,
+	 * autonomous, teleoperated and test.
+	 *
+	 * <p>This runs after the mode specific periodic functions, but before
+	 * LiveWindow and SmartDashboard integrated updating.
+	 */
+	@Override
+	public void robotPeriodic() {
+	}
 
-  /**
-   * This function is called every robot packet, no matter the mode. Use
-   * this for items like diagnostics that you want ran during disabled,
-   * autonomous, teleoperated and test.
-   *
-   * <p>This runs after the mode specific periodic functions, but before
-   * LiveWindow and SmartDashboard integrated updating.
-   */
-  @Override
-  public void robotPeriodic() {
-  }
-
-  /**
-   * This function is called once each time the robot enters Disabled mode.
-   * You can use it to reset any subsystem information you want to clear when
-   * the robot is disabled.
-   */
-  @Override
-  public void disabledInit() {
-		Robot.drivingSubsystem.setDriveSpeedMode(DrivingSubsystem.DriveSpeedMode.Disabled);
+	/**
+	 * This function is called once each time the robot enters Disabled mode.
+	 * You can use it to reset any subsystem information you want to clear when
+	 * the robot is disabled.
+	 */
+	@Override
+	public void disabledInit() {
 		Robot.drivingSubsystem.stop();
-  }
+	}
 
-  @Override
-  public void disabledPeriodic() {
-    Scheduler.getInstance().run();
-  }
+	@Override
+	public void disabledPeriodic() {
+		Scheduler.getInstance().run();
+	}
 
-  /**
-   * This autonomous (along with the chooser code above) shows how to select
-   * between different autonomous modes using the dashboard. The sendable
-   * chooser code works with the Java SmartDashboard. If you prefer the
-   * LabVIEW Dashboard, remove all of the chooser code and uncomment the
-   * getString code to get the auto name from the text box below the Gyro
-   */
-  @Override
-  public void autonomousInit() {
-		Robot.drivingSubsystem.setDriveSpeedMode(DrivingSubsystem.DriveSpeedMode.Auto);
-    autonomousCommand = chooser.getSelected();
+	/**
+	 * This autonomous (along with the chooser code above) shows how to select
+	 * between different autonomous modes using the dashboard. The sendable
+	 * chooser code works with the Java SmartDashboard. If you prefer the
+	 * LabVIEW Dashboard, remove all of the chooser code and uncomment the
+	 * getString code to get the auto name from the text box below the Gyro
+	 */
+	@Override
+	public void autonomousInit() {
+	}
 
-    // schedule the autonomous command
-    if (autonomousCommand != null) {
-      autonomousCommand.start();
-    }
-  }
+	/**
+	 * This function is called periodically during autonomous.
+	 */
+	@Override
+	public void autonomousPeriodic() {
+		Scheduler.getInstance().run();
+	}
 
-  /**
-   * This function is called periodically during autonomous.
-   */
-  @Override
-  public void autonomousPeriodic() {
-    Scheduler.getInstance().run();
-  }
+	@Override
+	public void teleopInit() {
+	}
 
-  @Override
-  public void teleopInit() {
-    Robot.drivingSubsystem.setDriveSpeedMode(DrivingSubsystem.DriveSpeedMode.TeleOp);
+	/**
+	 * This function is called periodically during operator control.
+	 */
+	@Override
+	public void teleopPeriodic() {
+		Scheduler.getInstance().run();
+	}
 
-    if (autonomousCommand != null) {
-      autonomousCommand.cancel();
-    }
-  }
+	/**
+	 * This function is called periodically during test mode.
+	 */
+	@Override
+	public void testPeriodic() {
+	}
 
-  /**
-   * This function is called periodically during operator control.
-   */
-  @Override
-  public void teleopPeriodic() {
-    Scheduler.getInstance().run();
-  }
-
-  /**
-   * This function is called periodically during test mode.
-   */
-  @Override
-  public void testPeriodic() {
-  }
 }

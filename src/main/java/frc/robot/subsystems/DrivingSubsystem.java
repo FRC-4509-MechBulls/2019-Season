@@ -9,25 +9,21 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 // Controls the drive motors
 public class DrivingSubsystem extends Subsystem {
 	
-	public double baseDriveSpeed;
+	public static double baseDriveSpeed = 0.75;
+
 	private NeutralMode neutralMode;
-	
-	public DrivingSubsystem() {
-		super();
-		this.setDriveSpeedMode(DriveSpeedMode.Disabled);
-	}
 
 	public void initDefaultCommand() {}
-
+	
 	public void drive(double ySpeed, double rotation) {
 		
 		if(Math.abs(ySpeed) > 1)
 			ySpeed = Math.abs(ySpeed) / ySpeed; // if the value given was too high, set it to the max
-		ySpeed *= this.baseDriveSpeed; // scale down the speed
+		ySpeed *= baseDriveSpeed; // scale down the speed
 		
 		if(Math.abs(rotation) > 1)
 			rotation = Math.abs(rotation) / rotation; // if the value given was too high, set it to the max
-		rotation *= this.baseDriveSpeed; // scale down the speed
+		rotation *= baseDriveSpeed; // scale down the speed
 		
 		RobotMap.drive.arcadeDrive(ySpeed, rotation); // function provided by the drivetrain. controls y and turn speed at the same time.
 	}
@@ -46,17 +42,6 @@ public class DrivingSubsystem extends Subsystem {
 	public void stop() {
 		RobotMap.leftFrontDriveTalon.set(0);
 		RobotMap.rightFrontDriveTalon.set(0);
-	}
-	
-	// This enum exists to provide speed limits during different modes.
-	public enum DriveSpeedMode {
-		Disabled(0), TeleOp(0.75), Auto(0.65); // Any speed values given for driving and turning are multiplied by one of these.
-		public double baseSpeed;
-		DriveSpeedMode(double baseSpeed) { this.baseSpeed = baseSpeed; }
-	}
-	
-	public void setDriveSpeedMode(DriveSpeedMode mode) {
-		this.baseDriveSpeed = mode.baseSpeed;
 	}
 	
 	// Set the neutral mode for all talons
