@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.*;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
@@ -24,7 +25,10 @@ public class RobotMap {
 	public static final int LEFT_BACK_DRIVE_TALON_PORT   = 1;
 	public static final int RIGHT_FRONT_DRIVE_TALON_PORT = 3;
 	public static final int RIGHT_BACK_DRIVE_TALON_PORT  = 4;
-
+	public static final int SOLENOID_TEST_PORT  = 7;
+	
+	public static Compressor testCompressor;
+	public static Solenoid testSolenoid;
 	public static WPI_TalonSRX leftFrontDriveTalon;
 	public static WPI_TalonSRX leftBackDriveTalon;
 	public static WPI_TalonSRX rightFrontDriveTalon;
@@ -33,6 +37,10 @@ public class RobotMap {
 	
 	// Initialize anything related to driving (motor controllers, encoders, etc.)
 	public static void initDrive() {
+
+		RobotMap.testCompressor = new Compressor();
+		RobotMap.testSolenoid = new Solenoid(RobotMap.SOLENOID_TEST_PORT);
+
 		RobotMap.leftFrontDriveTalon = new WPI_TalonSRX(RobotMap.LEFT_FRONT_DRIVE_TALON_PORT);
 		RobotMap.leftBackDriveTalon = new WPI_TalonSRX(RobotMap.LEFT_BACK_DRIVE_TALON_PORT);
 		RobotMap.rightFrontDriveTalon = new WPI_TalonSRX(RobotMap.RIGHT_FRONT_DRIVE_TALON_PORT);

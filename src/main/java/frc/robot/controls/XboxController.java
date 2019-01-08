@@ -22,5 +22,10 @@ public class XboxController implements ControllerBase {
 		double n = this.controller.getX(GenericHID.Hand.kRight);
 		return Math.abs(n) < Preferences.getInstance().getDouble("DEADZONE", 0.1) ? 0 : n;
 	}
+
+	@Override
+	public boolean getHatchPistonPressed(){
+		return this.controller.getAButton();
+	}
 	
 }

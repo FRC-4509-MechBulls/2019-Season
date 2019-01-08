@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 public class Robot extends TimedRobot {
 
 	public static final DrivingSubsystem drivingSubsystem = new DrivingSubsystem();
+	public static final PneumaticSubsystem pneumaticSubsystem = new PneumaticSubsystem();
 
 	public static OI oi;
 
