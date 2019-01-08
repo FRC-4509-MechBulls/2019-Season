@@ -13,17 +13,14 @@ public class PneumaticPistonCommand extends Command {
 		requires(Robot.pneumaticSubsystem); // Tells the Scheduler that this command will need the PneumaticSubsystem.
 	}
 
-	protected void initialize() {
-		// Make sure the controller is initialized before we try to use it.
-		if(Robot.oi.controller == null) throw new NullPointerException("Controller was null.");
-	}
+	protected void initialize() {}
 
 	public void execute() {
 		Robot.pneumaticSubsystem.shootPiston(this.solenoid); // Shoots the piston connected to the solenoid identified when calling the command
 	}
 
 	protected boolean isFinished() {
-		return false; // We don't want the command to stop, we want it to be interrupted.
+		return false;
 	}
 
 	protected void end() {

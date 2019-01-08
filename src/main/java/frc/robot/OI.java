@@ -25,7 +25,7 @@ public class OI {
 	public ControllerBase controller;
 	DriveTrigger     driveTrigger;
 	OpenSolenoidTrigger openSolenoidTrigger;
-
+	StartCompressorTrigger startCompressorTrigger;
 	
 	public OI() {
 		// List of possible controllers
@@ -35,12 +35,14 @@ public class OI {
 		// Init triggers
 		this.driveTrigger = new DriveTrigger();
 		this.openSolenoidTrigger = new OpenSolenoidTrigger();
+		this.startCompressorTrigger = new StartCompressorTrigger();
 	}
 	
 	// Maps triggers to commands.
 	public void setTriggers() {
 		this.driveTrigger.whileActive(new DirectDriveCommand());
 		this.openSolenoidTrigger.whileActive(new PneumaticPistonCommand(RobotMap.testSolenoid));
+		this.startCompressorTrigger.whenActive(new StartCompressorCommand());
 	}
 	
 	class DriveTrigger extends Trigger {
@@ -49,6 +51,10 @@ public class OI {
 
 	class OpenSolenoidTrigger extends Trigger {
 		public boolean get() { return Robot.oi.controller.getHatchPistonPressed(); }
+	}
+
+	class StartCompressorTrigger extends Trigger {
+		public boolean get() { return Robot.oi.controller.getStartCompressor(); }
 	}
 
 }

@@ -27,5 +27,10 @@ public class XboxController implements ControllerBase {
 	public boolean getHatchPistonPressed(){
 		return this.controller.getAButton();
 	}
+
+	@Override
+	public boolean getStartCompressor(){
+		return this.controller.getAButton();
+	}
 	
 }

@@ -11,10 +11,15 @@ public class PneumaticSubsystem extends Subsystem {
 
 	//Start the compresser to build pressure in the tanks
 	public void startCompressor() {
-		while (RobotMap.testCompressor.getPressureSwitchValue()){
-			RobotMap.testCompressor.start();
-		}
+		RobotMap.testCompressor.start();
+	}
+
+	public void stopCompressor() {
 		RobotMap.testCompressor.stop();
+	}
+
+	public boolean getPressureSwitchValue() {
+		return RobotMap.testCompressor.getPressureSwitchValue();
 	}
 
 	public void shootPiston(Solenoid solenoid){
