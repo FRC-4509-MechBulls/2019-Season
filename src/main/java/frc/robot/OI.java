@@ -24,6 +24,8 @@ public class OI {
 	
 	public ControllerBase controller;
 	DriveTrigger     driveTrigger;
+	OpenSolenoidTrigger openSolenoidTrigger;
+
 	
 	public OI() {
 		// List of possible controllers
@@ -32,15 +34,21 @@ public class OI {
 		
 		// Init triggers
 		this.driveTrigger = new DriveTrigger();
+		this.openSolenoidTrigger = new OpenSolenoidTrigger();
 	}
 	
 	// Maps triggers to commands.
 	public void setTriggers() {
 		this.driveTrigger.whileActive(new DirectDriveCommand());
+		this.openSolenoidTrigger.whileActive(new PneumaticPistonCommand(RobotMap.testSolenoid));
 	}
 	
 	class DriveTrigger extends Trigger {
 		public boolean get() { return Robot.oi.controller.getDrive() != 0 || Robot.oi.controller.getTurn() != 0; }
+	}
+
+	class OpenSolenoidTrigger extends Trigger {
+		public boolean get() { return Robot.oi.controller.getHatchPistonPressed(); }
 	}
 
 }
