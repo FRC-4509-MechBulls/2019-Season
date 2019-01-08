@@ -30,7 +30,7 @@ public class XboxController implements ControllerBase {
 
 	@Override
 	public boolean getStartCompressor(){
-		return this.controller.getAButton();
+		return this.controller.getYButton();
 	}
 	
 }
