@@ -24,6 +24,10 @@ public class OI {
 	
 	public ControllerBase controller;
 	DriveTrigger     driveTrigger;
+	TestATrigger aTrigger;
+	TestBTrigger bTrigger;
+	TestXTrigger xTrigger;
+	TestYTrigger yTrigger;
 	
 	public OI() {
 		// List of possible controllers
@@ -32,15 +36,39 @@ public class OI {
 		
 		// Init triggers
 		this.driveTrigger = new DriveTrigger();
+		this.aTrigger = new TestATrigger();
+		this.bTrigger = new TestBTrigger();
+		this.xTrigger = new TestXTrigger();
+		this.yTrigger = new TestYTrigger();
 	}
 	
 	// Maps triggers to commands.
 	public void setTriggers() {
 		this.driveTrigger.whileActive(new DirectDriveCommand());
+		this.aTrigger.whileActive(new DriveStraightWithVelocityCommand(0.5));
+		this.bTrigger.whileActive(new DriveStraightWithVelocityCommand(1.0));
+		this.xTrigger.whileActive(new DriveToPointCommand(10));
+		this.yTrigger.whileActive(new DriveToPointCommand(50));
 	}
 	
 	class DriveTrigger extends Trigger {
 		public boolean get() { return Robot.oi.controller.getDrive() != 0 || Robot.oi.controller.getTurn() != 0; }
+	}
+
+	class TestATrigger extends Trigger {
+		public boolean get() { return Robot.oi.controller.testA(); };
+	}
+
+	class TestBTrigger extends Trigger {
+		public boolean get() { return Robot.oi.controller.testB(); };
+	}
+
+	class TestXTrigger extends Trigger {
+		public boolean get() { return Robot.oi.controller.testX(); };
+	}
+
+	class TestYTrigger extends Trigger {
+		public boolean get() { return Robot.oi.controller.testY(); };
 	}
 
 }

@@ -4,7 +4,6 @@ import frc.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-
 public class DirectDriveCommand extends Command {
 	
 	public DirectDriveCommand() {
