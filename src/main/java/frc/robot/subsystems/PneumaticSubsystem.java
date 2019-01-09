@@ -1,13 +1,16 @@
 package frc.robot.subsystems;
 
 import frc.robot.RobotMap;
+import frc.robot.commands.StartCompressorCommand;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 //Controls the Pnuematic systems
 public class PneumaticSubsystem extends Subsystem {
 
-	public void initDefaultCommand() {}
+	public void initDefaultCommand() {
+		this.setDefaultCommand(new StartCompressorCommand());
+	}
 
 	//Start the compresser to build pressure in the tanks
 	public void startCompressor() {
