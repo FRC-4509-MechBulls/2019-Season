@@ -20,11 +20,10 @@ public class DriveToPointCommand extends Command {
 
 	public void execute() {
 		RobotMap.leftFrontDriveTalon.set(ControlMode.Position, position);
-		RobotMap.rightFrontDriveTalon.set(ControlMode.Position, position);
 	}
 
 	protected boolean isFinished() {
-		return RobotMap.leftFrontDriveTalon.getClosedLoopError() < 100 && RobotMap.rightFrontDriveTalon.getClosedLoopError() < 100;
+		return RobotMap.leftFrontDriveTalon.getClosedLoopError() < 100;
 	}
 
 	protected void end() {

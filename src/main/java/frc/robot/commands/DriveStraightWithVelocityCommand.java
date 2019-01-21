@@ -20,7 +20,6 @@ public class DriveStraightWithVelocityCommand extends Command {
 
 	public void execute() {
 		RobotMap.leftFrontDriveTalon.set(ControlMode.Velocity, velocity);
-		RobotMap.rightFrontDriveTalon.set(ControlMode.Velocity, velocity);
 	}
 
 	protected boolean isFinished() {
