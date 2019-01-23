@@ -44,6 +44,7 @@ public class OI {
 	
 	// Maps triggers to commands.
 	public void setTriggers() {
+		this.driveTrigger.whileActive(new DirectDriveCommand());
 		this.aTrigger.whileActive(new DriveStraightWithVelocityCommand(0.5));
 		this.bTrigger.whileActive(new DriveStraightWithVelocityCommand(1.0));
 		this.xTrigger.whileActive(new DriveToPointCommand(10));
