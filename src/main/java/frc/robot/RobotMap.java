@@ -19,8 +19,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
  */
 public class RobotMap {
 
-	public static final int LEFT_FRONT_DRIVE_TALON_PORT  = 0;
-	public static final int LEFT_BACK_DRIVE_TALON_PORT   = 1;
+	public static final int LEFT_FRONT_DRIVE_TALON_PORT  = 3;
+	public static final int LEFT_BACK_DRIVE_TALON_PORT   = 2;
 
 	public static WPI_TalonSRX leftFrontDriveTalon;
 	public static WPI_TalonSRX leftBackDriveTalon;
