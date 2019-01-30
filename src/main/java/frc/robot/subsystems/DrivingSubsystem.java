@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 
 import frc.robot.RobotMap;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -18,36 +17,27 @@ public class DrivingSubsystem extends Subsystem {
 	
 	public static double baseDriveSpeed = 0.75;
 
-	private NeutralMode neutralMode;
-
 	public void initDefaultCommand() {}
 
 	public static void setPID() {
-		RobotMap.leftFrontDriveTalon.config_kF(0, DrivingSubsystem.kf, 0);
-		RobotMap.leftFrontDriveTalon.config_kP(0, DrivingSubsystem.kp, 0);
-		RobotMap.leftFrontDriveTalon.config_kI(0, DrivingSubsystem.ki, 0);
-		RobotMap.leftFrontDriveTalon.config_kD(0, DrivingSubsystem.kd, 0);
-		RobotMap.leftFrontDriveTalon.config_IntegralZone(0, DrivingSubsystem.IZone, 0);
+		RobotMap.masterTalon.config_kF(0, DrivingSubsystem.kf, 0);
+		RobotMap.masterTalon.config_kP(0, DrivingSubsystem.kp, 0);
+		RobotMap.masterTalon.config_kI(0, DrivingSubsystem.ki, 0);
+		RobotMap.masterTalon.config_kD(0, DrivingSubsystem.kd, 0);
+		RobotMap.masterTalon.config_IntegralZone(0, DrivingSubsystem.IZone, 0);
 	}
 
 	// Directly set the speed of the talons to 0. If a command that sets the speed is still running, this won't stop it.
 	public void stop() {
-		RobotMap.leftFrontDriveTalon.set(0);
+		RobotMap.masterTalon.set(0);
 	}
 
-	public void setPosition(int left) {
-		RobotMap.leftFrontDriveTalon.set(ControlMode.Position, left);
+	public void setPosition(int position) {
+		RobotMap.masterTalon.set(ControlMode.Position, position);
 	}
-	
-	// Set the neutral mode for all talons
-	public void setNeutralMode(NeutralMode mode) {
-		RobotMap.leftFrontDriveTalon.setNeutralMode(mode);
-		RobotMap.leftBackDriveTalon.setNeutralMode(mode);
-		this.neutralMode = mode;
-	}
-	
-	public NeutralMode getNeutralMode() {
-		return this.neutralMode;
+
+	public void setVelocity(double velocity) {
+		RobotMap.masterTalon.set(ControlMode.Velocity, velocity);
 	}
 	
 }

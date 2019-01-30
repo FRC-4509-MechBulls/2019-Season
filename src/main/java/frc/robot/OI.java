@@ -23,15 +23,13 @@ public class OI {
 	public static final int XBOX_CONTROLLER_2_PORT = 1;
 	
 	public ControllerBase controller;
-	DriveTrigger     driveTrigger;
+	DriveTrigger driveTrigger;
 	TestATrigger aTrigger;
 	TestBTrigger bTrigger;
 	TestXTrigger xTrigger;
 	TestYTrigger yTrigger;
 	
 	public OI() {
-		// List of possible controllers
-		//this.controller = new XboxControllerPair(OI.XBOX_CONTROLLER_1_PORT, OI.XBOX_CONTROLLER_2_PORT);
 		this.controller = new XboxController(OI.XBOX_CONTROLLER_1_PORT);
 		
 		// Init triggers
@@ -45,10 +43,10 @@ public class OI {
 	// Maps triggers to commands.
 	public void setTriggers() {
 		this.driveTrigger.whileActive(new DirectDriveCommand());
-		this.aTrigger.whileActive(new DriveStraightWithVelocityCommand(0.5));
-		this.bTrigger.whileActive(new DriveStraightWithVelocityCommand(1.0));
-		this.xTrigger.whileActive(new DriveToPointCommand(10));
-		this.yTrigger.whileActive(new DriveToPointCommand(50));
+		this.aTrigger.whileActive(new DriveStraightWithVelocityCommand(1.0));
+		this.bTrigger.whileActive(new DriveToPointCommand(100));
+		//this.xTrigger.whileActive(new Command());
+		//this.yTrigger.whileActive(new Command());
 	}
 	
 	class DriveTrigger extends Trigger {

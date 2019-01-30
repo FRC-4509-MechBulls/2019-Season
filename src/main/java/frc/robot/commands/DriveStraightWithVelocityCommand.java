@@ -1,9 +1,6 @@
 package frc.robot.commands;
 
 import frc.robot.Robot;
-import frc.robot.RobotMap;
-
-import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -19,7 +16,7 @@ public class DriveStraightWithVelocityCommand extends Command {
 	protected void initialize() {}
 
 	public void execute() {
-		RobotMap.leftFrontDriveTalon.set(ControlMode.Velocity, velocity);
+		Robot.drivingSubsystem.setVelocity(this.velocity);
 	}
 
 	protected boolean isFinished() {

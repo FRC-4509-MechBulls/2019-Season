@@ -1,7 +1,6 @@
 package frc.robot.controls;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Preferences;
 
 public class XboxController implements ControllerBase {
 
@@ -19,27 +18,27 @@ public class XboxController implements ControllerBase {
 	@Override
 	public double getTurn() {
 		double n = this.controller.getX(GenericHID.Hand.kRight);
-		return Math.abs(n) < Preferences.getInstance().getDouble("DEADZONE", 0.1) ? 0 : n;
+		return Math.abs(n) < 0.1 ? 0 : n;
 	}
 
 	@Override
 	public boolean testA() {
-		return this.controller.getAButtonPressed();
+		return this.controller.getAButton();
 	}
 
 	@Override
 	public boolean testB() {
-		return this.controller.getBButtonPressed();
+		return this.controller.getBButton();
 	}
 
 	@Override
 	public boolean testX() {
-		return this.controller.getXButtonPressed();
+		return this.controller.getXButton();
 	}
 
 	@Override
 	public boolean testY() {
-		return this.controller.getYButtonPressed();
+		return this.controller.getYButton();
 	}
 	
 }

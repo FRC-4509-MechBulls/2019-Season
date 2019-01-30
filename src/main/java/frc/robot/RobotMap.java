@@ -7,7 +7,6 @@
 
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
@@ -19,28 +18,27 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
  */
 public class RobotMap {
 
-	public static final int LEFT_FRONT_DRIVE_TALON_PORT  = 3;
-	public static final int LEFT_BACK_DRIVE_TALON_PORT   = 2;
+	public static final int MASTER_TALON_PORT  = 3;
+	public static final int FOLLOW_TALON_PORT   = 2;
 
-	public static WPI_TalonSRX leftFrontDriveTalon;
-	public static WPI_TalonSRX leftBackDriveTalon;
+	public static WPI_TalonSRX masterTalon;
+	public static WPI_TalonSRX followTalon;
 	
 	// Initialize anything related to driving (motor controllers, encoders, etc.)
 	public static void initDrive() {
-		RobotMap.leftFrontDriveTalon  = new WPI_TalonSRX(RobotMap.LEFT_FRONT_DRIVE_TALON_PORT);
-		RobotMap.leftBackDriveTalon   = new WPI_TalonSRX(RobotMap.LEFT_BACK_DRIVE_TALON_PORT);
+		RobotMap.masterTalon = new WPI_TalonSRX(RobotMap.MASTER_TALON_PORT);
+		RobotMap.followTalon = new WPI_TalonSRX(RobotMap.FOLLOW_TALON_PORT);
 		
-		RobotMap.leftBackDriveTalon.follow(RobotMap.leftFrontDriveTalon);
+		RobotMap.followTalon.follow(RobotMap.masterTalon);
 
-		RobotMap.leftFrontDriveTalon.setNeutralMode(NeutralMode.Coast);
-		RobotMap.leftBackDriveTalon.setNeutralMode(NeutralMode.Coast);
+		RobotMap.masterTalon.configOpenloopRamp(0.2);
+		RobotMap.masterTalon.configClosedloopRamp(0.2);
+		RobotMap.masterTalon.configNominalOutputForward(0, 0);
+		RobotMap.masterTalon.configNominalOutputReverse(0, 0);
+		RobotMap.masterTalon.configPeakOutputForward(1, 0);
+		RobotMap.masterTalon.configPeakOutputReverse(-1, 0);
 
-		RobotMap.leftFrontDriveTalon.configOpenloopRamp(0.2);
-		RobotMap.leftFrontDriveTalon.configClosedloopRamp(0.2);
-		RobotMap.leftFrontDriveTalon.configNominalOutputForward(0, 0);
-		RobotMap.leftFrontDriveTalon.configPeakOutputReverse(1, 0);
-
-		RobotMap.leftFrontDriveTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+		RobotMap.masterTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 	}
 
 }
