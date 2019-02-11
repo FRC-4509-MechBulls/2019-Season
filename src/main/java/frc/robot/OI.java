@@ -7,10 +7,12 @@
 
 package frc.robot;
 
-import frc.robot.commands.*;
-import frc.robot.controls.*;
-
 import edu.wpi.first.wpilibj.buttons.Trigger;
+import frc.robot.commands.ChangeSourceCommand;
+import frc.robot.commands.TurnToCenterTargetsCommand;
+import frc.robot.commands.TurnToCommand;
+import frc.robot.controls.ControllerBase;
+import frc.robot.controls.XboxController;
 
 /*
  * This class handles human input and maps it to commands.
@@ -20,27 +22,60 @@ import edu.wpi.first.wpilibj.buttons.Trigger;
 public class OI {
 	
 	public static final int XBOX_CONTROLLER_1_PORT = 0;
-	public static final int XBOX_CONTROLLER_2_PORT = 1;
 	
 	public ControllerBase controller;
-	DriveTrigger     driveTrigger;
+	DriveTrigger  driveTrigger;
+	YTrigger yTrigger;
+	BTrigger bTrigger;
+	ATrigger aTrigger;
+	XTrigger xTrigger;
+	StartTrigger centerTrigger;
 	
 	public OI() {
 		// List of possible controllers
-		//this.controller = new XboxControllerPair(OI.XBOX_CONTROLLER_1_PORT, OI.XBOX_CONTROLLER_2_PORT);
 		this.controller = new XboxController(OI.XBOX_CONTROLLER_1_PORT);
 		
 		// Init triggers
 		this.driveTrigger = new DriveTrigger();
+		this.yTrigger = new YTrigger();
+		this.bTrigger = new BTrigger();
+		this.aTrigger = new ATrigger();
+		this.xTrigger = new XTrigger();
+		this.centerTrigger = new StartTrigger();
 	}
-	
+
 	// Maps triggers to commands.
 	public void setTriggers() {
-		this.driveTrigger.whileActive(new DirectDriveCommand());
+		//this.driveTrigger.whileActive(new DirectDriveCommand());
+		this.yTrigger.whenActive(new TurnToCommand(0));
+		this.bTrigger.whenActive(new TurnToCommand(45));
+		this.aTrigger.whenActive(new TurnToCommand(90));
+		this.xTrigger.whenActive(new ChangeSourceCommand());
+		this.centerTrigger.whenActive(new TurnToCenterTargetsCommand());
 	}
 	
 	class DriveTrigger extends Trigger {
 		public boolean get() { return Robot.oi.controller.getDrive() != 0 || Robot.oi.controller.getTurn() != 0; }
+	}
+	
+	class YTrigger extends Trigger {
+		public boolean get() { return Robot.oi.controller.getY(); }
+	}
+	
+	class BTrigger extends Trigger {
+		public boolean get() { return Robot.oi.controller.getB(); }
+	}
+	
+	class ATrigger extends Trigger {
+		public boolean get() { return Robot.oi.controller.getA(); }
+	}
+	
+	class XTrigger extends Trigger {
+		public boolean get() { return Robot.oi.controller.getX(); }
+	}
+
+	class StartTrigger extends Trigger {
+		public boolean get() { return Robot.oi.controller.getStart(); }
 	}
 
 }

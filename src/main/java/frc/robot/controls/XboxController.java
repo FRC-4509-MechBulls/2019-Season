@@ -23,4 +23,29 @@ public class XboxController implements ControllerBase {
 		return Math.abs(n) < Preferences.getInstance().getDouble("DEADZONE", 0.1) ? 0 : n;
 	}
 	
+	@Override
+	public boolean getY() {
+		return this.controller.getYButtonPressed();
+	}
+	
+	@Override
+	public boolean getB() {
+		return this.controller.getBButtonPressed();
+	}
+	
+	@Override
+	public boolean getA() {
+		return this.controller.getAButtonPressed();
+	}
+	
+	@Override
+	public boolean getX() {
+		return this.controller.getXButtonPressed();
+	}
+
+	@Override
+	public boolean getStart() {
+		return this.controller.getStartButtonPressed();
+	}
+	
 }

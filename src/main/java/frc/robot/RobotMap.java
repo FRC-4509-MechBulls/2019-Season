@@ -10,6 +10,7 @@ package frc.robot;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 /**
@@ -30,6 +31,7 @@ public class RobotMap {
 	public static WPI_TalonSRX rightFrontDriveTalon;
 	public static WPI_TalonSRX rightBackDriveTalon;
 	public static DifferentialDrive drive;
+	public static WPI_AHRS navX;
 	
 	// Initialize anything related to driving (motor controllers, encoders, etc.)
 	public static void initDrive() {
@@ -49,6 +51,10 @@ public class RobotMap {
 		RobotMap.rightBackDriveTalon.setNeutralMode(NeutralMode.Coast);
 		
 		RobotMap.drive.setDeadband(0);
+	}
+
+	public static void initSensors() {
+		RobotMap.navX = new WPI_AHRS(Port.kMXP);
 	}
 
 }
