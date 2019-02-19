@@ -5,7 +5,6 @@ import frc.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-
 public class TurnToCenterTargetsCommand extends Command {
 
 	double initialAngle;

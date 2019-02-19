@@ -5,7 +5,6 @@ import frc.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-
 public class TurnToCommand extends Command {
 	
 	double targetAngle;

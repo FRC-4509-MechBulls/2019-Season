@@ -8,11 +8,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.buttons.Trigger;
-import frc.robot.commands.ChangeSourceCommand;
-import frc.robot.commands.TurnToCenterTargetsCommand;
-import frc.robot.commands.TurnToCommand;
+import frc.robot.commands.*;
 import frc.robot.controls.ControllerBase;
-import frc.robot.controls.XboxController;
+import frc.robot.controls.XboxControllerPair;
 
 /*
  * This class handles human input and maps it to commands.
@@ -22,60 +20,70 @@ import frc.robot.controls.XboxController;
 public class OI {
 	
 	public static final int XBOX_CONTROLLER_1_PORT = 0;
+	public static final int XBOX_CONTROLLER_2_PORT = 1;
 	
 	public ControllerBase controller;
-	DriveTrigger  driveTrigger;
-	YTrigger yTrigger;
-	BTrigger bTrigger;
-	ATrigger aTrigger;
-	XTrigger xTrigger;
-	StartTrigger centerTrigger;
+	DriveTrigger driveTrigger;
+	HabEnableTrigger habEnableTrigger;
+	HabDisableTrigger habDisableTrigger;
+	ArmTrigger armTrigger;
+	GrabberTrigger grabberTrigger;
+	HatchPopperTrigger hatchPopperTrigger;
 	
 	public OI() {
 		// List of possible controllers
-		this.controller = new XboxController(OI.XBOX_CONTROLLER_1_PORT);
+		//this.controller = new XboxController(OI.XBOX_CONTROLLER_1_PORT);
+		this.controller = new XboxControllerPair(OI.XBOX_CONTROLLER_1_PORT, OI.XBOX_CONTROLLER_2_PORT);
 		
 		// Init triggers
 		this.driveTrigger = new DriveTrigger();
-		this.yTrigger = new YTrigger();
-		this.bTrigger = new BTrigger();
-		this.aTrigger = new ATrigger();
-		this.xTrigger = new XTrigger();
-		this.centerTrigger = new StartTrigger();
+		this.habEnableTrigger = new HabEnableTrigger();
+		this.habDisableTrigger = new HabDisableTrigger();
+		this.armTrigger = new ArmTrigger();
+		this.grabberTrigger = new GrabberTrigger();
+		this.hatchPopperTrigger = new HatchPopperTrigger();
 	}
 
 	// Maps triggers to commands.
 	public void setTriggers() {
-		//this.driveTrigger.whileActive(new DirectDriveCommand());
-		this.yTrigger.whenActive(new TurnToCommand(0));
-		this.bTrigger.whenActive(new TurnToCommand(45));
-		this.aTrigger.whenActive(new TurnToCommand(90));
-		this.xTrigger.whenActive(new ChangeSourceCommand());
-		this.centerTrigger.whenActive(new TurnToCenterTargetsCommand());
+		this.driveTrigger.whileActive(new DirectDriveCommand());
+		this.habEnableTrigger.whenActive(new HabEnableCommand());
+		this.habDisableTrigger.whenActive(new HabDisableCommand());
+		this.armTrigger.whileActive(new DirectArmCommand());
+		this.grabberTrigger.whileActive(new DirectGrabberCommand());
+		this.hatchPopperTrigger.whenActive(new PopHatchCommand());
 	}
 	
 	class DriveTrigger extends Trigger {
 		public boolean get() { return Robot.oi.controller.getDrive() != 0 || Robot.oi.controller.getTurn() != 0; }
 	}
 	
-	class YTrigger extends Trigger {
-		public boolean get() { return Robot.oi.controller.getY(); }
+	class HabEnableTrigger extends Trigger {
+		public boolean get() { return Robot.oi.controller.getHabEnable(); }
 	}
 	
-	class BTrigger extends Trigger {
-		public boolean get() { return Robot.oi.controller.getB(); }
+	class HabDisableTrigger extends Trigger {
+		public boolean get() { return Robot.oi.controller.getHabDisable(); }
 	}
 	
-	class ATrigger extends Trigger {
-		public boolean get() { return Robot.oi.controller.getA(); }
+	class HabFrontTrigger extends Trigger {
+		public boolean get() { return Robot.oi.controller.getHabFront(); }
 	}
 	
-	class XTrigger extends Trigger {
-		public boolean get() { return Robot.oi.controller.getX(); }
+	class HabBackTrigger extends Trigger {
+		public boolean get() { return Robot.oi.controller.getHabBack(); }
 	}
-
-	class StartTrigger extends Trigger {
-		public boolean get() { return Robot.oi.controller.getStart(); }
+	
+	class ArmTrigger extends Trigger {
+		public boolean get() { return Robot.oi.controller.getArm() != 0; }
+	}
+	
+	class GrabberTrigger extends Trigger {
+		public boolean get() { return Robot.oi.controller.getGrabber() != 0; }
+	}
+	
+	class HatchPopperTrigger extends Trigger {
+		public boolean get() { return Robot.oi.controller.getHatchPopper(); }
 	}
 
 }
