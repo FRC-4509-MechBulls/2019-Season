@@ -1,62 +1,69 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.												*/
-/* Open Source Software - may be modified and shared by FRC teams. The code	 */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.																															 */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot;
 
-import frc.robot.subsystems.*;
-
+import edu.wpi.first.networktables.EntryListenerFlags;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import frc.robot.subsystems.*;
 
-/**
- * The VM is configured to automatically run this class, and to call the
- * functions corresponding to each mode, as described in the TimedRobot
- * documentation. If you change the name of this class or the package after
- * creating this project, you must also update the build.gradle file in the
- * project.
- */
 public class Robot extends TimedRobot {
 
 	public static final DrivingSubsystem drivingSubsystem = new DrivingSubsystem();
+	public static final HabSubsystem habSubsystem = new HabSubsystem();
+	public static final HatchSubsystem hatchSubsystem = new HatchSubsystem();
+	public static final ArmSubsystem armSubsystem = new ArmSubsystem();
+	public static final GrabberSubsystem grabberSubsystem = new GrabberSubsystem();
 
 	public static OI oi;
 
-	/**
-	 * This function is run when the robot is first started up and should be
-	 * used for any initialization code.
-	 */
+	public static double[] contourLeft, contourRight;
+
+	public static double pT, iT, dT;
+
 	@Override
 	public void robotInit() {
 		RobotMap.initDrive();
+		RobotMap.initHab();
+		RobotMap.initHatch();
+		RobotMap.initCargo();
+		RobotMap.initSensors();
 		
 		Robot.oi = new OI();
 		Robot.oi.setTriggers();
+
+		Robot.drivingSubsystem.createTurnPositionController();
+
+		Robot.contourLeft  = NetworkTableInstance.getDefault().getTable("vision/hatch-targets").getEntry("contour_left").getDoubleArray(new double[6]);
+		Robot.contourRight = NetworkTableInstance.getDefault().getTable("vision/hatch-targets").getEntry("contour_right").getDoubleArray(new double[6]);
+
+		NetworkTableInstance.getDefault().getTable("vision/hatch-targets").addEntryListener("contour_left", (table, key, entry, value, flags) -> {
+			Robot.contourLeft = value.getDoubleArray();
+		}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+
+		NetworkTableInstance.getDefault().getTable("vision/hatch-targets").addEntryListener("contour_right", (table, key, entry, value, flags) -> {
+			Robot.contourRight = value.getDoubleArray();
+		}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 	}
 
-	/**
-	 * This function is called every robot packet, no matter the mode. Use
-	 * this for items like diagnostics that you want ran during disabled,
-	 * autonomous, teleoperated and test.
-	 *
-	 * <p>This runs after the mode specific periodic functions, but before
-	 * LiveWindow and SmartDashboard integrated updating.
-	 */
+	public static double getTargetCenter() {
+		return (((Robot.contourLeft[0] + Robot.contourLeft[2]) + Robot.contourRight[0]) / 2);
+	}
+
+	public static double getAverageDistance() {
+		return (Robot.contourLeft[4] + Robot.contourRight[4]) / 2;
+	}
+
 	@Override
 	public void robotPeriodic() {
 	}
 
-	/**
-	 * This function is called once each time the robot enters Disabled mode.
-	 * You can use it to reset any subsystem information you want to clear when
-	 * the robot is disabled.
-	 */
 	@Override
 	public void disabledInit() {
 		Robot.drivingSubsystem.stop();
+		Robot.habSubsystem.disable();
+		Robot.hatchSubsystem.disable();
+		Robot.armSubsystem.stop();
+		Robot.grabberSubsystem.stop();
 	}
 
 	@Override
@@ -64,20 +71,10 @@ public class Robot extends TimedRobot {
 		Scheduler.getInstance().run();
 	}
 
-	/**
-	 * This autonomous (along with the chooser code above) shows how to select
-	 * between different autonomous modes using the dashboard. The sendable
-	 * chooser code works with the Java SmartDashboard. If you prefer the
-	 * LabVIEW Dashboard, remove all of the chooser code and uncomment the
-	 * getString code to get the auto name from the text box below the Gyro
-	 */
 	@Override
 	public void autonomousInit() {
 	}
 
-	/**
-	 * This function is called periodically during autonomous.
-	 */
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
@@ -87,17 +84,15 @@ public class Robot extends TimedRobot {
 	public void teleopInit() {
 	}
 
-	/**
-	 * This function is called periodically during operator control.
-	 */
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 	}
 
-	/**
-	 * This function is called periodically during test mode.
-	 */
+	@Override
+	public void testInit() {
+	}
+
 	@Override
 	public void testPeriodic() {
 	}

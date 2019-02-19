@@ -4,7 +4,6 @@ import frc.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-
 public class DirectDriveCommand extends Command {
 	
 	public DirectDriveCommand() {
@@ -16,7 +15,7 @@ public class DirectDriveCommand extends Command {
 		if(Robot.oi.controller == null) throw new NullPointerException("Controller was null.");
 	}
 
-	public void execute() {
+	protected void execute() {
 		Robot.drivingSubsystem.drive(Robot.oi.controller.getDrive(), Robot.oi.controller.getTurn()); // Use input directly from the controller
 	}
 

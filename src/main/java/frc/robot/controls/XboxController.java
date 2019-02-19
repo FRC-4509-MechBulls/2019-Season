@@ -22,5 +22,44 @@ public class XboxController implements ControllerBase {
 		double n = this.controller.getX(GenericHID.Hand.kRight);
 		return Math.abs(n) < Preferences.getInstance().getDouble("DEADZONE", 0.1) ? 0 : n;
 	}
+
+	@Override
+	public boolean getHabEnable() {
+		return this.controller.getPOV() == 0;
+	}
+
+	@Override
+	public boolean getHabDisable() {
+		return this.controller.getPOV() == 180;
+	}
+
+	@Override
+	public boolean getHabFront() {
+		return this.controller.getPOV() == 90;
+	}
+
+	@Override
+	public boolean getHabBack() {
+		return this.controller.getPOV() == 270;
+	}
+
+	@Override
+	public double getArm() {
+		double n = this.controller.getY(GenericHID.Hand.kLeft);
+		return Math.abs(n) < Preferences.getInstance().getDouble("DEADZONE", 0.1) ? 0 : n;
+	}
+
+	@Override
+	public double getGrabber() {
+		int n = 0;
+		if(this.controller.getBumper(GenericHID.Hand.kLeft))  n -= 1;
+		if(this.controller.getBumper(GenericHID.Hand.kRight)) n += 1;
+		return n;
+	}
+
+	@Override
+	public boolean getHatchPopper() {
+		return this.controller.getYButtonPressed();
+	}
 	
 }

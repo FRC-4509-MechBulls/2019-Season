@@ -1,9 +1,8 @@
 package frc.robot.subsystems;
 
 import frc.robot.RobotMap;
-
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-
+import frc.robot.commands.DirectDriveCommand;
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 // Controls the drive motors
@@ -11,9 +10,12 @@ public class DrivingSubsystem extends Subsystem {
 	
 	public static double baseDriveSpeed = 0.75;
 
-	private NeutralMode neutralMode;
+	public PIDController turnPIDController;
 
-	public void initDefaultCommand() {}
+	@Override
+	public void initDefaultCommand() {
+		this.setDefaultCommand(new DirectDriveCommand());
+	}
 	
 	public void drive(double ySpeed, double rotation) {
 		
@@ -43,18 +45,12 @@ public class DrivingSubsystem extends Subsystem {
 		RobotMap.leftFrontDriveTalon.set(0);
 		RobotMap.rightFrontDriveTalon.set(0);
 	}
-	
-	// Set the neutral mode for all talons
-	public void setNeutralMode(NeutralMode mode) {
-		RobotMap.leftFrontDriveTalon.setNeutralMode(mode);
-		RobotMap.leftBackDriveTalon.setNeutralMode(mode);
-		RobotMap.rightFrontDriveTalon.setNeutralMode(mode);
-		RobotMap.rightBackDriveTalon.setNeutralMode(mode);
-		this.neutralMode = mode;
-	}
-	
-	public NeutralMode getNeutralMode() {
-		return this.neutralMode;
+
+	public void createTurnPositionController() {
+		this.turnPIDController = new PIDController(0.2, 0, 0, RobotMap.navX, (output) -> { RobotMap.drive.arcadeDrive(0, output); });
+		this.turnPIDController.setInputRange(-180, 180);
+		this.turnPIDController.setContinuous(true);
+		this.turnPIDController.setOutputRange(-1, 1);
 	}
 	
 }

@@ -7,10 +7,10 @@
 
 package frc.robot;
 
-import frc.robot.commands.*;
-import frc.robot.controls.*;
-
 import edu.wpi.first.wpilibj.buttons.Trigger;
+import frc.robot.commands.*;
+import frc.robot.controls.ControllerBase;
+import frc.robot.controls.XboxControllerPair;
 
 /*
  * This class handles human input and maps it to commands.
@@ -23,24 +23,67 @@ public class OI {
 	public static final int XBOX_CONTROLLER_2_PORT = 1;
 	
 	public ControllerBase controller;
-	DriveTrigger     driveTrigger;
+	DriveTrigger driveTrigger;
+	HabEnableTrigger habEnableTrigger;
+	HabDisableTrigger habDisableTrigger;
+	ArmTrigger armTrigger;
+	GrabberTrigger grabberTrigger;
+	HatchPopperTrigger hatchPopperTrigger;
 	
 	public OI() {
 		// List of possible controllers
-		//this.controller = new XboxControllerPair(OI.XBOX_CONTROLLER_1_PORT, OI.XBOX_CONTROLLER_2_PORT);
-		this.controller = new XboxController(OI.XBOX_CONTROLLER_1_PORT);
+		//this.controller = new XboxController(OI.XBOX_CONTROLLER_1_PORT);
+		this.controller = new XboxControllerPair(OI.XBOX_CONTROLLER_1_PORT, OI.XBOX_CONTROLLER_2_PORT);
 		
 		// Init triggers
 		this.driveTrigger = new DriveTrigger();
+		this.habEnableTrigger = new HabEnableTrigger();
+		this.habDisableTrigger = new HabDisableTrigger();
+		this.armTrigger = new ArmTrigger();
+		this.grabberTrigger = new GrabberTrigger();
+		this.hatchPopperTrigger = new HatchPopperTrigger();
 	}
-	
+
 	// Maps triggers to commands.
 	public void setTriggers() {
 		this.driveTrigger.whileActive(new DirectDriveCommand());
+		this.habEnableTrigger.whenActive(new HabEnableCommand());
+		this.habDisableTrigger.whenActive(new HabDisableCommand());
+		this.armTrigger.whileActive(new DirectArmCommand());
+		this.grabberTrigger.whileActive(new DirectGrabberCommand());
+		this.hatchPopperTrigger.whenActive(new PopHatchCommand());
 	}
 	
 	class DriveTrigger extends Trigger {
 		public boolean get() { return Robot.oi.controller.getDrive() != 0 || Robot.oi.controller.getTurn() != 0; }
+	}
+	
+	class HabEnableTrigger extends Trigger {
+		public boolean get() { return Robot.oi.controller.getHabEnable(); }
+	}
+	
+	class HabDisableTrigger extends Trigger {
+		public boolean get() { return Robot.oi.controller.getHabDisable(); }
+	}
+	
+	class HabFrontTrigger extends Trigger {
+		public boolean get() { return Robot.oi.controller.getHabFront(); }
+	}
+	
+	class HabBackTrigger extends Trigger {
+		public boolean get() { return Robot.oi.controller.getHabBack(); }
+	}
+	
+	class ArmTrigger extends Trigger {
+		public boolean get() { return Robot.oi.controller.getArm() != 0; }
+	}
+	
+	class GrabberTrigger extends Trigger {
+		public boolean get() { return Robot.oi.controller.getGrabber() != 0; }
+	}
+	
+	class HatchPopperTrigger extends Trigger {
+		public boolean get() { return Robot.oi.controller.getHatchPopper(); }
 	}
 
 }
