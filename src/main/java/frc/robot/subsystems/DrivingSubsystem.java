@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.commands.DirectDriveCommand;
 import edu.wpi.first.wpilibj.PIDController;
@@ -9,6 +10,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class DrivingSubsystem extends Subsystem {
 	
 	public static double baseDriveSpeed = 0.75;
+	public static boolean doReverse = false;
 
 	public PIDController turnPIDController;
 
@@ -22,6 +24,7 @@ public class DrivingSubsystem extends Subsystem {
 		if(Math.abs(ySpeed) > 1)
 			ySpeed = Math.abs(ySpeed) / ySpeed; // if the value given was too high, set it to the max
 		ySpeed *= baseDriveSpeed; // scale down the speed
+		if(doReverse) ySpeed *= -1;
 		
 		if(Math.abs(rotation) > 1)
 			rotation = Math.abs(rotation) / rotation; // if the value given was too high, set it to the max
@@ -47,10 +50,11 @@ public class DrivingSubsystem extends Subsystem {
 	}
 
 	public void createTurnPositionController() {
-		this.turnPIDController = new PIDController(0.2, 0, 0, RobotMap.navX, (output) -> { RobotMap.drive.arcadeDrive(0, output); });
+		this.turnPIDController = new PIDController(Robot.pGT, Robot.iGT, Robot.dGT, RobotMap.navX, (output) -> { RobotMap.drive.arcadeDrive(0, output); });
 		this.turnPIDController.setInputRange(-180, 180);
 		this.turnPIDController.setContinuous(true);
 		this.turnPIDController.setOutputRange(-1, 1);
+		this.turnPIDController.setAbsoluteTolerance(2);
 	}
 	
 }

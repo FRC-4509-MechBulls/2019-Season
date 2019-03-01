@@ -12,6 +12,10 @@ public class HatchSubsystem extends Subsystem {
 		RobotMap.hatchSolenoid.set(true);
 	}
 
+	public boolean isFinished() {
+		return true;
+	}
+
 	public void disable() {
 		RobotMap.hatchSolenoid.set(false);
 	}

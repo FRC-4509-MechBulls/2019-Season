@@ -18,4 +18,9 @@ public interface ControllerBase {
 
 	boolean getHatchPopper();
 
+	boolean getChangeSource();
+	boolean getReverseDrive();
+
+	boolean getToggleCompressor();
+
 }

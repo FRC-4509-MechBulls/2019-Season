@@ -17,8 +17,10 @@ public class Robot extends TimedRobot {
 	public static OI oi;
 
 	public static double[] contourLeft, contourRight;
+	public static double[] cargoX, cargoY, cargoR;
 
-	public static double pT, iT, dT;
+	public static double pGT = 0.01, iGT = 0.0, dGT = 0.0;
+	public static double pCT = 0.01, iCT = 0.0, dCT = 0.0;
 
 	@Override
 	public void robotInit() {
@@ -27,30 +29,22 @@ public class Robot extends TimedRobot {
 		RobotMap.initHatch();
 		RobotMap.initCargo();
 		RobotMap.initSensors();
+		RobotMap.initCompressor();
 		
 		Robot.oi = new OI();
 		Robot.oi.setTriggers();
 
 		Robot.drivingSubsystem.createTurnPositionController();
 
-		Robot.contourLeft  = NetworkTableInstance.getDefault().getTable("vision/hatch-targets").getEntry("contour_left").getDoubleArray(new double[6]);
-		Robot.contourRight = NetworkTableInstance.getDefault().getTable("vision/hatch-targets").getEntry("contour_right").getDoubleArray(new double[6]);
-
-		NetworkTableInstance.getDefault().getTable("vision/hatch-targets").addEntryListener("contour_left", (table, key, entry, value, flags) -> {
-			Robot.contourLeft = value.getDoubleArray();
-		}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
-
-		NetworkTableInstance.getDefault().getTable("vision/hatch-targets").addEntryListener("contour_right", (table, key, entry, value, flags) -> {
-			Robot.contourRight = value.getDoubleArray();
-		}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+		Robot.initNT();
 	}
 
 	public static double getTargetCenter() {
-		return (((Robot.contourLeft[0] + Robot.contourLeft[2]) + Robot.contourRight[0]) / 2);
+		return (Robot.contourLeft[0] + Robot.contourRight[0]) / 2;
 	}
 
 	public static double getAverageDistance() {
-		return (Robot.contourLeft[4] + Robot.contourRight[4]) / 2;
+		return (Robot.contourLeft[5] + Robot.contourRight[5]) / 2;
 	}
 
 	@Override
@@ -95,6 +89,34 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void testPeriodic() {
+	}
+
+	public static void initNT() {
+		Robot.contourLeft  = NetworkTableInstance.getDefault().getTable("vision/targets").getEntry("contour_left").getDoubleArray(new double[6]);
+		Robot.contourRight = NetworkTableInstance.getDefault().getTable("vision/targets").getEntry("contour_right").getDoubleArray(new double[6]);
+		Robot.cargoX = NetworkTableInstance.getDefault().getTable("vision/cargo").getEntry("cargoX").getDoubleArray(new double[0]);
+		Robot.cargoY = NetworkTableInstance.getDefault().getTable("vision/cargo").getEntry("cargoY").getDoubleArray(new double[0]);
+		Robot.cargoR = NetworkTableInstance.getDefault().getTable("vision/cargo").getEntry("cargoR").getDoubleArray(new double[0]);
+
+		NetworkTableInstance.getDefault().getTable("vision/targets").addEntryListener("contour_left", (table, key, entry, value, flags) -> {
+			Robot.contourLeft = value.getDoubleArray();
+		}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+
+		NetworkTableInstance.getDefault().getTable("vision/targets").addEntryListener("contour_right", (table, key, entry, value, flags) -> {
+			Robot.contourRight = value.getDoubleArray();
+		}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+
+		NetworkTableInstance.getDefault().getTable("vision/cargo").addEntryListener("cargoX", (table, key, entry, value, flags) -> {
+			Robot.cargoX = value.getDoubleArray();
+		}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+
+		NetworkTableInstance.getDefault().getTable("vision/cargo").addEntryListener("cargoY", (table, key, entry, value, flags) -> {
+			Robot.cargoY = value.getDoubleArray();
+		}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+
+		NetworkTableInstance.getDefault().getTable("vision/cargo").addEntryListener("cargoR", (table, key, entry, value, flags) -> {
+			Robot.cargoR = value.getDoubleArray();
+		}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 	}
 
 }

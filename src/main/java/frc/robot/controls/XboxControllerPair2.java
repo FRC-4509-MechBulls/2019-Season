@@ -3,11 +3,11 @@ package frc.robot.controls;
 import edu.wpi.first.wpilibj.GenericHID;
 
 
-public class XboxControllerPair implements ControllerBase {
+public class XboxControllerPair2 implements ControllerBase {
 
 	edu.wpi.first.wpilibj.XboxController controller1, controller2;
 	
-	public XboxControllerPair(int port1, int port2) {
+	public XboxControllerPair2(int port1, int port2) {
 		this.controller1 = new edu.wpi.first.wpilibj.XboxController(port1);
 		this.controller2 = new edu.wpi.first.wpilibj.XboxController(port2);
 	}
@@ -36,7 +36,7 @@ public class XboxControllerPair implements ControllerBase {
 
 	@Override
 	public boolean getHabFront() {
-		return this.controller1.getXButton();
+		return this.controller1.getYButton();
 	}
 
 	@Override
@@ -58,7 +58,7 @@ public class XboxControllerPair implements ControllerBase {
 
 	@Override
 	public boolean getHatchPopper() {
-		return this.controller1.getYButton();
+		return this.controller2.getBumper(GenericHID.Hand.kLeft);
 	}
 
 	@Override

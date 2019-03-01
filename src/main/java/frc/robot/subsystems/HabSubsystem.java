@@ -34,4 +34,12 @@ public class HabSubsystem extends Subsystem {
 		RobotMap.habBackSolenoid.set(false);
 	}
 
+	public void toggleFront() {
+		RobotMap.habFrontSolenoid.set(!RobotMap.habFrontSolenoid.get());
+	}
+
+	public void toggleBack() {
+		RobotMap.habBackSolenoid.set(!RobotMap.habBackSolenoid.get());
+	}
+
 }

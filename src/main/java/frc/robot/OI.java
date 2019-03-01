@@ -26,9 +26,14 @@ public class OI {
 	DriveTrigger driveTrigger;
 	HabEnableTrigger habEnableTrigger;
 	HabDisableTrigger habDisableTrigger;
+	HabFrontTrigger habFrontTrigger;
+	HabBackTrigger habBackTrigger;
 	ArmTrigger armTrigger;
 	GrabberTrigger grabberTrigger;
 	HatchPopperTrigger hatchPopperTrigger;
+	ChangeSourceTrigger changeSourceTrigger;
+	ReverseDriveTrigger reverseDriveTrigger;
+	ToggleCompressorTrigger toggleCompressorTrigger;
 	
 	public OI() {
 		// List of possible controllers
@@ -37,21 +42,37 @@ public class OI {
 		
 		// Init triggers
 		this.driveTrigger = new DriveTrigger();
+
 		this.habEnableTrigger = new HabEnableTrigger();
 		this.habDisableTrigger = new HabDisableTrigger();
+		this.habFrontTrigger = new HabFrontTrigger();
+		this.habBackTrigger = new HabBackTrigger();
+
 		this.armTrigger = new ArmTrigger();
 		this.grabberTrigger = new GrabberTrigger();
 		this.hatchPopperTrigger = new HatchPopperTrigger();
+
+		this.changeSourceTrigger = new ChangeSourceTrigger();
+		this.reverseDriveTrigger = new ReverseDriveTrigger();
+		this.toggleCompressorTrigger = new ToggleCompressorTrigger();
 	}
 
 	// Maps triggers to commands.
 	public void setTriggers() {
 		this.driveTrigger.whileActive(new DirectDriveCommand());
-		this.habEnableTrigger.whenActive(new HabEnableCommand());
-		this.habDisableTrigger.whenActive(new HabDisableCommand());
+
+		//this.habEnableTrigger.whenActive(new HabEnableCommand());
+		//this.habDisableTrigger.whenActive(new HabDisableCommand());
+		//this.habFrontTrigger.whenActive(new HabToggleFrontCommand());
+		//this.habBackTrigger.whenActive(new HabToggleBackCommand());
+
 		this.armTrigger.whileActive(new DirectArmCommand());
 		this.grabberTrigger.whileActive(new DirectGrabberCommand());
-		this.hatchPopperTrigger.whenActive(new PopHatchCommand());
+		this.hatchPopperTrigger.whileActive(new PopHatchCommand());
+
+		this.changeSourceTrigger.whenActive(new ChangeSourceCommand());
+		this.reverseDriveTrigger.whenActive(new ReverseDriveCommand());
+		this.toggleCompressorTrigger.whenActive(new ToggleCompressorCommand());
 	}
 	
 	class DriveTrigger extends Trigger {
@@ -84,6 +105,18 @@ public class OI {
 	
 	class HatchPopperTrigger extends Trigger {
 		public boolean get() { return Robot.oi.controller.getHatchPopper(); }
+	}
+
+	class ChangeSourceTrigger extends Trigger {
+		public boolean get() { return Robot.oi.controller.getChangeSource(); }
+	}
+
+	class ReverseDriveTrigger extends Trigger {
+		public boolean get() { return Robot.oi.controller.getReverseDrive(); }
+	}
+
+	class ToggleCompressorTrigger extends Trigger {
+		public boolean get() { return Robot.oi.controller.getToggleCompressor(); }
 	}
 
 }

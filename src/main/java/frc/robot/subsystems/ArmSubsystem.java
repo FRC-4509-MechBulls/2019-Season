@@ -5,7 +5,7 @@ import frc.robot.RobotMap;
 
 public class ArmSubsystem extends Subsystem {
 	
-	public static double baseArmSpeed = 0.75;
+	public static double baseArmSpeed = 0.60;
 
 	@Override
 	public void initDefaultCommand() {}

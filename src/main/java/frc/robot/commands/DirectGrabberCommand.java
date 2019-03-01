@@ -15,7 +15,7 @@ public class DirectGrabberCommand extends Command {
 	}
 
 	public void execute() {
-		Robot.armSubsystem.set(Robot.oi.controller.getArm());
+		Robot.armSubsystem.set(Robot.oi.controller.getGrabber());
 	}
 
 	protected boolean isFinished() {

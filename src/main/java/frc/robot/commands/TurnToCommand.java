@@ -25,7 +25,7 @@ public class TurnToCommand extends Command {
 	}
 
 	protected boolean isFinished() {
-		return !Robot.drivingSubsystem.turnPIDController.isEnabled() || Math.abs(RobotMap.navX.getAngle() - this.targetAngle) < 2;
+		return !Robot.drivingSubsystem.turnPIDController.isEnabled() || Math.abs(Math.abs(RobotMap.navX.getAngle()) - Math.abs(this.targetAngle)) < 2;
 	}
 
 	protected void end() {

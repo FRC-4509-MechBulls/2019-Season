@@ -15,7 +15,7 @@ public class PopHatchCommand extends Command {
 	}
 
 	protected boolean isFinished() {
-		return this.timeSinceInitialized() > 0.1;
+		return false;
 	}
 
 	protected void end() {

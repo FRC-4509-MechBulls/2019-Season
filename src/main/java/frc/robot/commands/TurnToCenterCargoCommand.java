@@ -5,11 +5,11 @@ import frc.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.PIDCommand;
 
-public class TurnToCenterTargetsCommand extends PIDCommand {
+public class TurnToCenterCargoCommand extends PIDCommand {
 
 	double initialAngle;
 	
-	public TurnToCenterTargetsCommand() {
+	public TurnToCenterCargoCommand() {
 		super(Robot.pCT, Robot.iCT, Robot.dCT);
 		requires(Robot.drivingSubsystem);
 		this.setInputRange(0, 416);
@@ -19,11 +19,11 @@ public class TurnToCenterTargetsCommand extends PIDCommand {
 	}
 
 	protected boolean isFinished() {
-		return Math.abs(Robot.getTargetCenter() - 208) <= 10;
+		return Math.abs(Robot.cargoX[0] - 208) <= 10;
 	}
 
 	protected double returnPIDInput() {
-		return Robot.getTargetCenter();
+		return Robot.cargoX[0];
 	}
 
 	protected void usePIDOutput(double output) {

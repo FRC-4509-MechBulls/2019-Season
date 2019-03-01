@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.command.PIDCommand;
 public class DirectDriveStraightCommand extends PIDCommand {
 
 	public DirectDriveStraightCommand() {
-		super(Robot.pT, Robot.iT, Robot.dT);
+		super(Robot.pGT, Robot.iGT, Robot.dGT);
 		this.setInputRange(-180, 180);
 		this.getPIDController().setContinuous(true);
 		this.getPIDController().setOutputRange(-1, 1);
@@ -17,7 +17,7 @@ public class DirectDriveStraightCommand extends PIDCommand {
 		if(Robot.oi.controller == null) throw new NullPointerException("Controller was null.");
 		this.setSetpointRelative(0);
 	}
-	
+
 	protected double returnPIDInput() {
 		return RobotMap.navX.getAngle();
 	}
