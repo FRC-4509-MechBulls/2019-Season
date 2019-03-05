@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 // Controls the drive motors
 public class DrivingSubsystem extends Subsystem {
 	
-	public static double baseDriveSpeed = 0.75;
+	public static double baseDriveSpeed = 0.90;
 	public static boolean doReverse = false;
 
 	public PIDController turnPIDController;

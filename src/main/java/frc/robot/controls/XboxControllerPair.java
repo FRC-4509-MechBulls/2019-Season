@@ -20,7 +20,7 @@ public class XboxControllerPair implements ControllerBase {
 	
 	@Override
 	public double getTurn() {
-		double n = this.controller1.getX(GenericHID.Hand.kRight);
+		double n = this.controller1.getX(GenericHID.Hand.kLeft);
 		return Math.abs(n) < 0.1 ? 0 : n;
 	}
 
@@ -36,12 +36,12 @@ public class XboxControllerPair implements ControllerBase {
 
 	@Override
 	public boolean getHabFront() {
-		return this.controller1.getXButton();
+		return this.controller1.getXButtonPressed();
 	}
 
 	@Override
 	public boolean getHabBack() {
-		return this.controller1.getAButton();
+		return this.controller1.getAButtonPressed();
 	}
 
 	@Override
@@ -69,11 +69,6 @@ public class XboxControllerPair implements ControllerBase {
 	@Override
 	public boolean getReverseDrive() {
 		return this.controller1.getBackButtonPressed();
-	}
-
-	@Override
-	public boolean getToggleCompressor() {
-		return this.controller1.getBackButtonPressed() || this.controller2.getBackButtonPressed();
 	}
 	
 }

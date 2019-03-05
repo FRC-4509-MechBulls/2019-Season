@@ -5,7 +5,7 @@ import frc.robot.RobotMap;
 
 public class GrabberSubsystem extends Subsystem {
 	
-	public static double baseGrabberSpeed = 0.75;
+	public static double baseGrabberSpeed = 0.85;
 
 	@Override
 	public void initDefaultCommand() {}

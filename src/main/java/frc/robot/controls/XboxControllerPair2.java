@@ -36,12 +36,12 @@ public class XboxControllerPair2 implements ControllerBase {
 
 	@Override
 	public boolean getHabFront() {
-		return this.controller1.getYButton();
+		return this.controller1.getYButtonPressed();
 	}
 
 	@Override
 	public boolean getHabBack() {
-		return this.controller1.getAButton();
+		return this.controller1.getAButtonPressed();
 	}
 
 	@Override
@@ -58,7 +58,7 @@ public class XboxControllerPair2 implements ControllerBase {
 
 	@Override
 	public boolean getHatchPopper() {
-		return this.controller2.getBumper(GenericHID.Hand.kLeft);
+		return this.controller2.getBumper(GenericHID.Hand.kLeft) || this.controller2.getBumper(GenericHID.Hand.kRight);
 	}
 
 	@Override
@@ -69,11 +69,6 @@ public class XboxControllerPair2 implements ControllerBase {
 	@Override
 	public boolean getReverseDrive() {
 		return this.controller1.getBackButtonPressed();
-	}
-
-	@Override
-	public boolean getToggleCompressor() {
-		return this.controller1.getBackButtonPressed() || this.controller2.getBackButtonPressed();
 	}
 	
 }

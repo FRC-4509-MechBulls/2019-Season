@@ -29,7 +29,6 @@ public class Robot extends TimedRobot {
 		RobotMap.initHatch();
 		RobotMap.initCargo();
 		RobotMap.initSensors();
-		RobotMap.initCompressor();
 		
 		Robot.oi = new OI();
 		Robot.oi.setTriggers();

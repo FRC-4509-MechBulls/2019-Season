@@ -10,14 +10,14 @@ public class PopHatchCommand extends Command {
 		requires(Robot.hatchSubsystem);
 	}
 
-	protected void initialze() {
+	protected void initialize() {
 		Robot.hatchSubsystem.enable();
 	}
 
-	protected boolean isFinished() {
+	public boolean isFinished() {
 		return false;
 	}
-
+	
 	protected void end() {
 		Robot.hatchSubsystem.disable();
 	}

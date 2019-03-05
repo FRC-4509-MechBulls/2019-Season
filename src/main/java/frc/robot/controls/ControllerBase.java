@@ -21,6 +21,4 @@ public interface ControllerBase {
 	boolean getChangeSource();
 	boolean getReverseDrive();
 
-	boolean getToggleCompressor();
-
 }

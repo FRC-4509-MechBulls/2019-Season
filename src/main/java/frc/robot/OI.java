@@ -33,7 +33,6 @@ public class OI {
 	HatchPopperTrigger hatchPopperTrigger;
 	ChangeSourceTrigger changeSourceTrigger;
 	ReverseDriveTrigger reverseDriveTrigger;
-	ToggleCompressorTrigger toggleCompressorTrigger;
 	
 	public OI() {
 		// List of possible controllers
@@ -54,7 +53,6 @@ public class OI {
 
 		this.changeSourceTrigger = new ChangeSourceTrigger();
 		this.reverseDriveTrigger = new ReverseDriveTrigger();
-		this.toggleCompressorTrigger = new ToggleCompressorTrigger();
 	}
 
 	// Maps triggers to commands.
@@ -72,7 +70,6 @@ public class OI {
 
 		this.changeSourceTrigger.whenActive(new ChangeSourceCommand());
 		this.reverseDriveTrigger.whenActive(new ReverseDriveCommand());
-		this.toggleCompressorTrigger.whenActive(new ToggleCompressorCommand());
 	}
 	
 	class DriveTrigger extends Trigger {
@@ -113,10 +110,6 @@ public class OI {
 
 	class ReverseDriveTrigger extends Trigger {
 		public boolean get() { return Robot.oi.controller.getReverseDrive(); }
-	}
-
-	class ToggleCompressorTrigger extends Trigger {
-		public boolean get() { return Robot.oi.controller.getToggleCompressor(); }
 	}
 
 }
