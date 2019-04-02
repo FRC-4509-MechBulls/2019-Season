@@ -24,22 +24,17 @@ public class XboxController implements ControllerBase {
 	}
 
 	@Override
-	public boolean getHabEnable() {
-		return this.controller.getPOV() == 0;
-	}
-
-	@Override
-	public boolean getHabDisable() {
+	public boolean getDirectionDown() {
 		return this.controller.getPOV() == 180;
 	}
 
 	@Override
-	public boolean getHabFront() {
+	public boolean getDirectionRight() {
 		return this.controller.getPOV() == 90;
 	}
 
 	@Override
-	public boolean getHabBack() {
+	public boolean getDirectionLeft() {
 		return this.controller.getPOV() == 270;
 	}
 
@@ -70,6 +65,16 @@ public class XboxController implements ControllerBase {
 	@Override
 	public boolean getReverseDrive() {
 		return this.controller.getBackButtonPressed();
+	}
+
+	@Override
+	public boolean getGoFast() {
+		return this.controller.getBButton();
+	}
+	
+	@Override
+	public boolean getAlign() {
+		return this.controller.getXButton();
 	}
 	
 }

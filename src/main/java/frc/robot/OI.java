@@ -1,10 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot;
 
 import edu.wpi.first.wpilibj.buttons.Trigger;
@@ -24,15 +17,16 @@ public class OI {
 	
 	public ControllerBase controller;
 	DriveTrigger driveTrigger;
-	HabEnableTrigger habEnableTrigger;
-	HabDisableTrigger habDisableTrigger;
-	HabFrontTrigger habFrontTrigger;
-	HabBackTrigger habBackTrigger;
+	GoFastTrigger goFastTrigger;
+	DirectionDownTrigger directionDownTrigger;
+	DirectionRightTrigger directionRightTrigger;
+	DirectionLeftTrigger directionLeftTrigger;
 	ArmTrigger armTrigger;
 	GrabberTrigger grabberTrigger;
 	HatchPopperTrigger hatchPopperTrigger;
 	ChangeSourceTrigger changeSourceTrigger;
 	ReverseDriveTrigger reverseDriveTrigger;
+	AlignTrigger alignTrigger;
 	
 	public OI() {
 		// List of possible controllers
@@ -41,11 +35,11 @@ public class OI {
 		
 		// Init triggers
 		this.driveTrigger = new DriveTrigger();
+		this.goFastTrigger = new GoFastTrigger();
 
-		this.habEnableTrigger = new HabEnableTrigger();
-		this.habDisableTrigger = new HabDisableTrigger();
-		this.habFrontTrigger = new HabFrontTrigger();
-		this.habBackTrigger = new HabBackTrigger();
+		this.directionDownTrigger = new DirectionDownTrigger();
+		this.directionRightTrigger = new DirectionRightTrigger();
+		this.directionLeftTrigger = new DirectionLeftTrigger();
 
 		this.armTrigger = new ArmTrigger();
 		this.grabberTrigger = new GrabberTrigger();
@@ -53,16 +47,18 @@ public class OI {
 
 		this.changeSourceTrigger = new ChangeSourceTrigger();
 		this.reverseDriveTrigger = new ReverseDriveTrigger();
+
+		this.alignTrigger = new AlignTrigger();
 	}
 
 	// Maps triggers to commands.
 	public void setTriggers() {
 		this.driveTrigger.whileActive(new DirectDriveCommand());
+		this.goFastTrigger.whileActive(new GottaGoFastCommand());
 
-		//this.habEnableTrigger.whenActive(new HabEnableCommand());
-		//this.habDisableTrigger.whenActive(new HabDisableCommand());
-		//this.habFrontTrigger.whenActive(new HabToggleFrontCommand());
-		//this.habBackTrigger.whenActive(new HabToggleBackCommand());
+		this.directionRightTrigger.whenActive(new ToggleFrontRelayCommand());
+		//this.directionDownTrigger.whenActive(new ResetGyroCommand());
+		this.directionLeftTrigger.whenActive(new ToggleBackRelayCommand());
 
 		this.armTrigger.whileActive(new DirectArmCommand());
 		this.grabberTrigger.whileActive(new DirectGrabberCommand());
@@ -70,26 +66,28 @@ public class OI {
 
 		this.changeSourceTrigger.whenActive(new ChangeSourceCommand());
 		this.reverseDriveTrigger.whenActive(new ReverseDriveCommand());
+
+		this.alignTrigger.whileActive(new TurnToCenterTargetsCommand());
 	}
-	
+
 	class DriveTrigger extends Trigger {
-		public boolean get() { return Robot.oi.controller.getDrive() != 0 || Robot.oi.controller.getTurn() != 0; }
+		public boolean get() { return (Robot.oi.controller.getDrive() != 0 || Robot.oi.controller.getTurn() != 0); }
+	}
+
+	class GoFastTrigger extends Trigger {
+		public boolean get() { return Robot.oi.controller.getGoFast(); }
 	}
 	
-	class HabEnableTrigger extends Trigger {
-		public boolean get() { return Robot.oi.controller.getHabEnable(); }
+	class DirectionDownTrigger extends Trigger {
+		public boolean get() { return Robot.oi.controller.getDirectionDown(); }
 	}
 	
-	class HabDisableTrigger extends Trigger {
-		public boolean get() { return Robot.oi.controller.getHabDisable(); }
+	class DirectionRightTrigger extends Trigger {
+		public boolean get() { return Robot.oi.controller.getDirectionRight(); }
 	}
 	
-	class HabFrontTrigger extends Trigger {
-		public boolean get() { return Robot.oi.controller.getHabFront(); }
-	}
-	
-	class HabBackTrigger extends Trigger {
-		public boolean get() { return Robot.oi.controller.getHabBack(); }
+	class DirectionLeftTrigger extends Trigger {
+		public boolean get() { return Robot.oi.controller.getDirectionLeft(); }
 	}
 	
 	class ArmTrigger extends Trigger {
@@ -110,6 +108,10 @@ public class OI {
 
 	class ReverseDriveTrigger extends Trigger {
 		public boolean get() { return Robot.oi.controller.getReverseDrive(); }
+	}
+
+	class AlignTrigger extends Trigger {
+		public boolean get() { return Robot.oi.controller.getAlign(); }
 	}
 
 }

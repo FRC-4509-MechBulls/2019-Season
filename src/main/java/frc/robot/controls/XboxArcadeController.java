@@ -3,11 +3,11 @@ package frc.robot.controls;
 import edu.wpi.first.wpilibj.GenericHID;
 
 
-public class XboxControllerPair2 implements ControllerBase {
+public class XboxArcadeController implements ControllerBase {
 
 	edu.wpi.first.wpilibj.XboxController controller1, controller2;
 	
-	public XboxControllerPair2(int port1, int port2) {
+	public XboxArcadeController(int port1, int port2) {
 		this.controller1 = new edu.wpi.first.wpilibj.XboxController(port1);
 		this.controller2 = new edu.wpi.first.wpilibj.XboxController(port2);
 	}
@@ -20,45 +20,42 @@ public class XboxControllerPair2 implements ControllerBase {
 	
 	@Override
 	public double getTurn() {
-		double n = this.controller1.getX(GenericHID.Hand.kRight);
+		double n = this.controller1.getX(GenericHID.Hand.kLeft);
 		return Math.abs(n) < 0.1 ? 0 : n;
 	}
 
 	@Override
-	public boolean getHabEnable() {
-		return this.controller1.getPOV() == 0;
-	}
-
-	@Override
-	public boolean getHabDisable() {
+	public boolean getDirectionDown() {
 		return this.controller1.getPOV() == 180;
 	}
 
 	@Override
-	public boolean getHabFront() {
-		return this.controller1.getYButtonPressed();
+	public boolean getDirectionRight() {
+		return this.controller1.getXButtonPressed();
 	}
 
 	@Override
-	public boolean getHabBack() {
+	public boolean getDirectionLeft() {
 		return this.controller1.getAButtonPressed();
 	}
 
 	@Override
 	public double getArm() {
-		double n = this.controller2.getY(GenericHID.Hand.kRight);
+		double n = -1 * this.controller2.getY(GenericHID.Hand.kRight);
 		return Math.abs(n) < 0.1 ? 0 : n;
 	}
 
 	@Override
 	public double getGrabber() {
-		double n = this.controller2.getY(GenericHID.Hand.kLeft);
-		return Math.abs(n) < 0.1 ? 0 : n;
+		int n = 0;
+		if(this.controller2.getXButton()) n++;
+		if(this.controller2.getAButton()) n--;
+		return n;
 	}
 
 	@Override
 	public boolean getHatchPopper() {
-		return this.controller2.getBumper(GenericHID.Hand.kLeft) || this.controller2.getBumper(GenericHID.Hand.kRight);
+		return this.controller2.getYButton();
 	}
 
 	@Override
@@ -70,5 +67,15 @@ public class XboxControllerPair2 implements ControllerBase {
 	public boolean getReverseDrive() {
 		return this.controller1.getBackButtonPressed();
 	}
+
+	@Override
+	public boolean getGoFast() {
+		return this.controller1.getBButton();
+	}
 	
+	@Override
+	public boolean getAlign() {
+		return this.controller1.getXButton();
+	}
+
 }

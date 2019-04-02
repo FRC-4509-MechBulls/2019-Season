@@ -15,33 +15,28 @@ public class XboxControllerPair implements ControllerBase {
 	@Override
 	public double getDrive() {
 		double n = this.controller1.getTriggerAxis(GenericHID.Hand.kRight) - this.controller1.getTriggerAxis(GenericHID.Hand.kLeft);
-		return Math.abs(n) < 0.1 ? 0 : n;
+		return Math.abs(n) < 0.2 ? 0 : n;
 	}
 	
 	@Override
 	public double getTurn() {
 		double n = this.controller1.getX(GenericHID.Hand.kLeft);
-		return Math.abs(n) < 0.1 ? 0 : n;
+		return Math.abs(n) < 0.2 ? 0 : n;
 	}
 
 	@Override
-	public boolean getHabEnable() {
-		return this.controller1.getPOV() == 0;
-	}
-
-	@Override
-	public boolean getHabDisable() {
+	public boolean getDirectionDown() {
 		return this.controller1.getPOV() == 180;
 	}
 
 	@Override
-	public boolean getHabFront() {
-		return this.controller1.getXButtonPressed();
+	public boolean getDirectionRight() {
+		return this.controller1.getPOV() == 90;
 	}
 
 	@Override
-	public boolean getHabBack() {
-		return this.controller1.getAButtonPressed();
+	public boolean getDirectionLeft() {
+		return this.controller1.getPOV() == 270;
 	}
 
 	@Override
@@ -69,6 +64,16 @@ public class XboxControllerPair implements ControllerBase {
 	@Override
 	public boolean getReverseDrive() {
 		return this.controller1.getBackButtonPressed();
+	}
+
+	@Override
+	public boolean getGoFast() {
+		return this.controller1.getBButton();
+	}
+	
+	@Override
+	public boolean getAlign() {
+		return this.controller1.getXButton();
 	}
 	
 }
